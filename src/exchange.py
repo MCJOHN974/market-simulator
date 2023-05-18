@@ -1,6 +1,7 @@
 from order import Order
 from trader import Trader
 
+import heapq
 
 
 # amount everywhere is amount of jcoins
@@ -44,7 +45,7 @@ class Exchange:
         return {'buy_orders': self.buy_orders, 'sell_orders': self.sell_orders}
 
     def trades(self):
-        return self.__trades__[-50:] if len(self.__trades__) > 50 else self.__trades__
+        return self.__trades__
 
     def place_order(self, order: Order):
         if order.order_type == "buy":
@@ -52,6 +53,7 @@ class Exchange:
                 return
 
             order.trader.usd -= order.amount * order.price
+
             self.buy_orders.append(order)
             self.buy_orders.sort()
         elif order.order_type == "sell":
